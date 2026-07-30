@@ -1,12 +1,27 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FOOD_QUICK_ADD, MACRO_TARGETS, WATER_TARGET_ML } from '../data/plan.js'
 import { sumMacros } from '../utils/score.js'
 import { DropletIcon } from './icons.jsx'
+import { analyzeFoodPhoto, fileToBase64 } from '../utils/foodAnalysis.js'
+import ApiKeySettings from './ApiKeySettings.jsx'
 
 const WATER_STEPS = [200, 250, 500]
 
-export default function NutritionTab({ today, nutrition, setNutrition, water, setWater }) {
+export default function NutritionTab({
+  today,
+  nutrition,
+  setNutrition,
+  water,
+  setWater,
+  anthropicApiKey,
+  setAnthropicApiKey,
+}) {
   const [showPicker, setShowPicker] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
+  const [photoState, setPhotoState] = useState('idle')
+  const [photoError, setPhotoError] = useState('')
+  const [pendingResult, setPendingResult] = useState(null)
+  const fileInputRef = useRef(null)
   const entries = nutrition[today] || []
   const macros = sumMacros(entries)
   const waterMl = water[today] || 0
@@ -15,6 +30,43 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
     const id = `${food.name}-${Date.now()}`
     setNutrition({ ...nutrition, [today]: [...entries, { ...food, id }] })
     setShowPicker(false)
+  }
+
+  function triggerPhoto() {
+    if (!anthropicApiKey) {
+      setShowSettings(true)
+      setPhotoError('Спочатку додай Claude API ключ нижче.')
+      setPhotoState('error')
+      return
+    }
+    fileInputRef.current?.click()
+  }
+
+  async function handlePhotoChange(e) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    setPhotoState('analyzing')
+    try {
+      const base64Data = await fileToBase64(file)
+      const result = await analyzeFoodPhoto({ apiKey: anthropicApiKey, base64Data, mediaType: file.type })
+      setPendingResult(result)
+      setPhotoState('result')
+    } catch (err) {
+      setPhotoError(err?.message || 'Не вдалося проаналізувати фото.')
+      setPhotoState('error')
+    }
+  }
+
+  function confirmPhotoResult() {
+    if (pendingResult) addFood(pendingResult)
+    setPendingResult(null)
+    setPhotoState('idle')
+  }
+
+  function cancelPhotoResult() {
+    setPendingResult(null)
+    setPhotoState('idle')
   }
 
   function removeFood(id) {
@@ -64,6 +116,56 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-white/90">Фото їжі → калорії</h2>
+          <button onClick={() => setShowSettings((v) => !v)} className="text-sm font-medium text-ember-300">
+            ⚙ Ключ
+          </button>
+        </div>
+
+        {showSettings && (
+          <div className="mt-3">
+            <ApiKeySettings apiKey={anthropicApiKey} setApiKey={setAnthropicApiKey} />
+          </div>
+        )}
+
+        <button
+          onClick={triggerPhoto}
+          disabled={photoState === 'analyzing'}
+          className="mt-3 w-full rounded-xl bg-ember-500 py-3 text-sm font-semibold text-white shadow-glow disabled:opacity-60"
+        >
+          {photoState === 'analyzing' ? 'Аналізую фото…' : '📷 Сфотографувати їжу'}
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={handlePhotoChange}
+        />
+
+        {photoState === 'error' && <p className="mt-2 text-sm text-ember-300">{photoError}</p>}
+
+        {photoState === 'result' && pendingResult && (
+          <div className="mt-3 rounded-xl bg-char-800/70 p-3">
+            <p className="text-sm text-white/90">{pendingResult.name}</p>
+            <p className="text-sm text-[#a89a8c]">
+              Б{pendingResult.protein} / Ж{pendingResult.fat} / В{pendingResult.carbs} · {pendingResult.kcal} ккал
+            </p>
+            <div className="mt-2 flex gap-2">
+              <button onClick={confirmPhotoResult} className="flex-1 rounded-xl bg-ember-500 py-2 text-sm font-semibold text-white">
+                Додати
+              </button>
+              <button onClick={cancelPhotoResult} className="flex-1 rounded-xl bg-char-700 py-2 text-sm font-semibold text-white">
+                Скасувати
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-5 flex items-center justify-between">

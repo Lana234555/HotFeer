@@ -19,6 +19,7 @@ export default function App() {
   const [care, setCare] = useLocalStorage('hotfeet.care', {})
   const [progress, setProgress] = useLocalStorage('hotfeet.progress', [])
   const [steps, setSteps] = useLocalStorage('hotfeet.steps', {})
+  const [anthropicApiKey, setAnthropicApiKey] = useLocalStorage('hotfeet.anthropicApiKey', '')
 
   const today = todayKey()
   const dayNumber = useMemo(() => {
@@ -47,6 +48,8 @@ export default function App() {
     steps,
     setSteps,
     pedometer,
+    anthropicApiKey,
+    setAnthropicApiKey,
   }
 
   return (
