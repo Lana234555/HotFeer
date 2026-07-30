@@ -26,41 +26,43 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
   }
 
   return (
-    <div className="px-4 pt-8">
-      <h1 className="text-xl font-semibold">Харчування</h1>
+    <div className="px-4 pt-8 md:px-0 md:pt-10">
+      <h1 className="text-xl font-semibold md:text-2xl">Харчування</h1>
       <p className="mt-1 text-sm text-[#a89a8c]">Мета: {MACRO_TARGETS.kcal} ккал · Б {MACRO_TARGETS.protein} г</p>
 
-      <div className="ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4">
-        <MacroRow label="Калорії" value={macros.kcal} target={MACRO_TARGETS.kcal} unit="ккал" />
-        <MacroRow label="Білок" value={macros.protein} target={MACRO_TARGETS.protein} unit="г" />
-        <MacroRow label="Жири" value={macros.fat} target={MACRO_TARGETS.fat} unit="г" />
-        <MacroRow label="Вуглеводи" value={macros.carbs} target={MACRO_TARGETS.carbs} unit="г" />
-      </div>
+      <div className="md:grid md:grid-cols-2 md:items-start md:gap-6">
+        <div className="ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4">
+          <MacroRow label="Калорії" value={macros.kcal} target={MACRO_TARGETS.kcal} unit="ккал" />
+          <MacroRow label="Білок" value={macros.protein} target={MACRO_TARGETS.protein} unit="г" />
+          <MacroRow label="Жири" value={macros.fat} target={MACRO_TARGETS.fat} unit="г" />
+          <MacroRow label="Вуглеводи" value={macros.carbs} target={MACRO_TARGETS.carbs} unit="г" />
+        </div>
 
-      <div className="ember-card mt-4 rounded-3xl p-4 shadow-glow">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-white">
-            <DropletIcon />
-            <span className="text-sm font-semibold">Вода</span>
+        <div className="ember-card mt-4 rounded-3xl p-4 shadow-glow">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-white">
+              <DropletIcon />
+              <span className="text-sm font-semibold">Вода</span>
+            </div>
+            <span className="text-sm font-semibold text-white">{waterMl} / {WATER_TARGET_ML} мл</span>
           </div>
-          <span className="text-sm font-semibold text-white">{waterMl} / {WATER_TARGET_ML} мл</span>
-        </div>
-        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/25">
-          <div
-            className="h-full rounded-full bg-white/90"
-            style={{ width: `${Math.min(100, Math.round((waterMl / WATER_TARGET_ML) * 100))}%` }}
-          />
-        </div>
-        <div className="mt-3 flex gap-2">
-          {WATER_STEPS.map((ml) => (
-            <button
-              key={ml}
-              onClick={() => addWater(ml)}
-              className="flex-1 rounded-xl bg-black/25 py-2 text-xs font-semibold text-white hover:bg-black/35"
-            >
-              +{ml} мл
-            </button>
-          ))}
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/25">
+            <div
+              className="h-full rounded-full bg-white/90"
+              style={{ width: `${Math.min(100, Math.round((waterMl / WATER_TARGET_ML) * 100))}%` }}
+            />
+          </div>
+          <div className="mt-3 flex gap-2">
+            {WATER_STEPS.map((ml) => (
+              <button
+                key={ml}
+                onClick={() => addWater(ml)}
+                className="flex-1 rounded-xl bg-black/25 py-2 text-xs font-semibold text-white hover:bg-black/35"
+              >
+                +{ml} мл
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -75,7 +77,7 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
       </div>
 
       {showPicker && (
-        <div className="mt-2 grid grid-cols-1 gap-1.5 rounded-2xl border border-char-600/50 bg-char-800/60 p-2">
+        <div className="mt-2 grid grid-cols-1 gap-1.5 rounded-2xl border border-char-600/50 bg-char-800/60 p-2 md:grid-cols-2">
           {FOOD_QUICK_ADD.map((food) => (
             <button
               key={food.name}
@@ -89,9 +91,9 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
         </div>
       )}
 
-      <div className="mt-3 space-y-2 pb-4">
+      <div className="mt-3 space-y-2 pb-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
         {entries.length === 0 && (
-          <p className="rounded-2xl border border-dashed border-char-600/60 p-4 text-center text-sm text-[#a89a8c]">
+          <p className="rounded-2xl border border-dashed border-char-600/60 p-4 text-center text-sm text-[#a89a8c] md:col-span-2">
             Ще нічого не додано сьогодні
           </p>
         )}

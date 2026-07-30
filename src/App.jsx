@@ -41,13 +41,15 @@ export default function App() {
   }
 
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-char-950 pb-28 font-sans text-[#f5f1ec]">
-      {tab === 'home' && <Dashboard {...shared} onNavigate={setTab} />}
-      {tab === 'workout' && <WorkoutTab {...shared} />}
-      {tab === 'nutrition' && <NutritionTab {...shared} />}
-      {tab === 'care' && <CareTab {...shared} />}
-      {tab === 'progress' && <ProgressTab {...shared} />}
+    <div className="min-h-screen bg-char-950 font-sans text-[#f5f1ec] md:flex md:justify-center">
       <BottomNav active={tab} onChange={setTab} />
+      <main className="mx-auto w-full max-w-md pb-28 md:max-w-3xl md:pb-16 md:pl-28 md:pr-6">
+        {tab === 'home' && <Dashboard {...shared} onNavigate={setTab} />}
+        {tab === 'workout' && <WorkoutTab {...shared} />}
+        {tab === 'nutrition' && <NutritionTab {...shared} />}
+        {tab === 'care' && <CareTab {...shared} />}
+        {tab === 'progress' && <ProgressTab {...shared} />}
+      </main>
     </div>
   )
 }

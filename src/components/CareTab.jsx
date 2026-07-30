@@ -12,9 +12,9 @@ export default function CareTab({ today, care, setCare }) {
   }
 
   return (
-    <div className="px-4 pt-8">
+    <div className="px-4 pt-8 md:px-0 md:pt-10">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Домашній догляд</h1>
+        <h1 className="text-xl font-semibold md:text-2xl">Домашній догляд</h1>
         <span className="text-sm text-[#a89a8c]">{doneCount}/{CARE_ITEMS.length}</span>
       </div>
 
@@ -25,41 +25,43 @@ export default function CareTab({ today, care, setCare }) {
         />
       </div>
 
-      {GROUPS.map((group) => {
-        const items = CARE_ITEMS.filter((i) => i.time === group)
-        if (!items.length) return null
-        return (
-          <div key={group} className="ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4">
-            <h2 className="mb-3 text-sm font-semibold text-white/90">{group}</h2>
-            <div className="space-y-2">
-              {items.map((item) => {
-                const done = Boolean(todaysCare[item.id])
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => toggle(item.id)}
-                    className="flex w-full items-center justify-between rounded-xl bg-char-800/70 px-3 py-3 text-left"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
-                          done ? 'border-ember-400 bg-ember-500 text-white' : 'border-char-600 text-transparent'
-                        }`}
-                      >
-                        <CheckIcon />
+      <div className="md:grid md:grid-cols-3 md:items-start md:gap-5">
+        {GROUPS.map((group) => {
+          const items = CARE_ITEMS.filter((i) => i.time === group)
+          if (!items.length) return null
+          return (
+            <div key={group} className="ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4">
+              <h2 className="mb-3 text-sm font-semibold text-white/90">{group}</h2>
+              <div className="space-y-2">
+                {items.map((item) => {
+                  const done = Boolean(todaysCare[item.id])
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => toggle(item.id)}
+                      className="flex w-full items-center justify-between rounded-xl bg-char-800/70 px-3 py-3 text-left"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
+                            done ? 'border-ember-400 bg-ember-500 text-white' : 'border-char-600 text-transparent'
+                          }`}
+                        >
+                          <CheckIcon />
+                        </div>
+                        <div>
+                          <p className={`text-sm ${done ? 'text-white/60 line-through' : 'text-white/90'}`}>{item.label}</p>
+                          <p className="text-xs text-[#a89a8c]">{item.hint}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className={`text-sm ${done ? 'text-white/60 line-through' : 'text-white/90'}`}>{item.label}</p>
-                        <p className="text-xs text-[#a89a8c]">{item.hint}</p>
-                      </div>
-                    </div>
-                  </button>
-                )
-              })}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </div>
   )
 }
