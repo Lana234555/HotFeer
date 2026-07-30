@@ -17,6 +17,7 @@ export default function App() {
   const [water, setWater] = useLocalStorage('hotfeet.water', {})
   const [care, setCare] = useLocalStorage('hotfeet.care', {})
   const [progress, setProgress] = useLocalStorage('hotfeet.progress', [])
+  const [steps, setSteps] = useLocalStorage('hotfeet.steps', {})
 
   const today = todayKey()
   const dayNumber = useMemo(() => {
@@ -38,6 +39,8 @@ export default function App() {
     setCare,
     progress,
     setProgress,
+    steps,
+    setSteps,
   }
 
   return (

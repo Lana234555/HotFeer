@@ -8,6 +8,7 @@ export const MACRO_TARGETS = {
 }
 
 export const WATER_TARGET_ML = 2700
+export const STEPS_TARGET = 8000
 
 // 1 = Monday ... 7 = Sunday
 export const WORKOUT_SCHEDULE = {
