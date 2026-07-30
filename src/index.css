@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: #0a0908;
+  color: #f5f1ec;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.ember-card {
+  background: radial-gradient(120% 140% at 100% 0%, #ff7a2e 0%, #ff5a1a 22%, #832211 55%, #1b1917 85%);
+}
+
+.ember-card-soft {
+  background: linear-gradient(160deg, #26231f 0%, #1b1917 60%, #121110 100%);
+}
+
+.progress-track {
+  background: #262320;
+}
