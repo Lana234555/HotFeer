@@ -2,7 +2,7 @@ import { getWorkoutForDay, CARE_ITEMS, MACRO_TARGETS, WATER_TARGET_ML, TOTAL_DAY
 import { sumMacros, computeDailyScore } from '../utils/score.js'
 import { CheckIcon, FlameIcon, DropletIcon, DumbbellIcon } from './icons.jsx'
 
-export default function Dashboard({ today, dayNumber, workoutLog, nutrition, water, care, onNavigate }) {
+export default function Dashboard({ today, dayNumber, workoutLog, nutrition, water, care, onNavigate, onSignOut }) {
   const workout = getWorkoutForDay(dayNumber)
   const workoutDone = Boolean(workoutLog[today]?.done)
   const waterMl = water[today] || 0
@@ -24,8 +24,16 @@ export default function Dashboard({ today, dayNumber, workoutLog, nutrition, wat
           <p className="text-base text-[#a89a8c]">HotFeet</p>
           <h1 className="text-xl font-semibold md:text-2xl">30-денний план</h1>
         </div>
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ember-500/15 text-ember-300">
-          <FlameIcon />
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onSignOut}
+            className="rounded-2xl px-3 py-2 text-xs font-medium text-[#a89a8c] hover:text-white"
+          >
+            Вийти
+          </button>
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ember-500/15 text-ember-300">
+            <FlameIcon />
+          </div>
         </div>
       </div>
 
