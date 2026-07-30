@@ -28,7 +28,7 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
   return (
     <div className="px-4 pt-8 md:px-0 md:pt-10">
       <h1 className="text-xl font-semibold md:text-2xl">Харчування</h1>
-      <p className="mt-1 text-sm text-[#a89a8c]">Мета: {MACRO_TARGETS.kcal} ккал · Б {MACRO_TARGETS.protein} г</p>
+      <p className="mt-1 text-base text-[#a89a8c]">Мета: {MACRO_TARGETS.kcal} ккал · Б {MACRO_TARGETS.protein} г</p>
 
       <div className="md:grid md:grid-cols-2 md:items-start md:gap-6">
         <div className="ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4">
@@ -85,7 +85,7 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
               className="flex items-center justify-between rounded-xl px-3 py-2 text-left hover:bg-char-700/70"
             >
               <span className="text-sm text-white/90">{food.name}</span>
-              <span className="text-xs text-[#a89a8c]">{food.kcal} ккал</span>
+              <span className="text-sm text-[#a89a8c]">{food.kcal} ккал</span>
             </button>
           ))}
         </div>
@@ -93,7 +93,7 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
 
       <div className="mt-3 space-y-2 pb-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
         {entries.length === 0 && (
-          <p className="rounded-2xl border border-dashed border-char-600/60 p-4 text-center text-sm text-[#a89a8c] md:col-span-2">
+          <p className="rounded-2xl border border-dashed border-char-600/60 p-4 text-center text-base text-[#a89a8c] md:col-span-2">
             Ще нічого не додано сьогодні
           </p>
         )}
@@ -101,10 +101,10 @@ export default function NutritionTab({ today, nutrition, setNutrition, water, se
           <div key={e.id} className="flex items-center justify-between rounded-xl bg-char-800/70 px-3 py-2.5">
             <div>
               <p className="text-sm text-white/90">{e.name}</p>
-              <p className="text-xs text-[#a89a8c]">Б{e.protein} / Ж{e.fat} / В{e.carbs}</p>
+              <p className="text-sm text-[#a89a8c]">Б{e.protein} / Ж{e.fat} / В{e.carbs}</p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-xs text-[#a89a8c]">{e.kcal} ккал</span>
+              <span className="text-sm text-[#a89a8c]">{e.kcal} ккал</span>
               <button onClick={() => removeFood(e.id)} className="text-ember-300 text-xs font-semibold">
                 Видалити
               </button>
@@ -120,7 +120,7 @@ function MacroRow({ label, value, target, unit }) {
   const pct = Math.min(100, Math.round((value / target) * 100))
   return (
     <div className="mb-3 last:mb-0">
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex items-center justify-between text-sm">
         <span className="text-white/80">{label}</span>
         <span className="text-[#a89a8c]">
           {Math.round(value)} / {target} {unit}

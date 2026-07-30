@@ -15,7 +15,7 @@ export default function CareTab({ today, care, setCare }) {
     <div className="px-4 pt-8 md:px-0 md:pt-10">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold md:text-2xl">Домашній догляд</h1>
-        <span className="text-sm text-[#a89a8c]">{doneCount}/{CARE_ITEMS.length}</span>
+        <span className="text-base text-[#a89a8c]">{doneCount}/{CARE_ITEMS.length}</span>
       </div>
 
       <div className="progress-track mt-3 h-2 w-full overflow-hidden rounded-full">
@@ -51,7 +51,7 @@ export default function CareTab({ today, care, setCare }) {
                         </div>
                         <div>
                           <p className={`text-sm ${done ? 'text-white/60 line-through' : 'text-white/90'}`}>{item.label}</p>
-                          <p className="text-xs text-[#a89a8c]">{item.hint}</p>
+                          <p className="text-sm text-[#a89a8c]">{item.hint}</p>
                         </div>
                       </div>
                     </button>

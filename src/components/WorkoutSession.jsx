@@ -110,7 +110,7 @@ export default function WorkoutSession({ exercises, onFinish, onClose }) {
       <div className="ember-card-soft rounded-3xl border border-char-600/50 p-6 text-center">
         <p className="text-4xl">🔥</p>
         <h2 className="mt-2 text-lg font-semibold text-white">Тренування завершено!</h2>
-        <p className="mt-1 text-sm text-[#a89a8c]">{total} підходів позаду. Чудова робота.</p>
+        <p className="mt-1 text-base text-[#a89a8c]">{total} підходів позаду. Чудова робота.</p>
         <button onClick={onClose} className="mt-5 w-full rounded-xl bg-ember-500 py-2.5 text-sm font-semibold text-white">
           Закрити
         </button>
@@ -127,12 +127,12 @@ export default function WorkoutSession({ exercises, onFinish, onClose }) {
     <div className="ember-card-soft rounded-3xl border border-char-600/50 p-5">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs text-[#a89a8c]">
+          <p className="text-sm text-[#a89a8c]">
             Підхід {state.index + 1} / {total}
             {intense ? ' · фінішна пряма 🔥' : ''}
           </p>
           <h2 className="truncate text-base font-semibold text-white">{current.exerciseName}</h2>
-          <p className="text-xs text-[#a89a8c]">
+          <p className="text-sm text-[#a89a8c]">
             {current.setNumber}/{current.totalSetsForExercise} · {current.setsLabel}
           </p>
         </div>
@@ -184,7 +184,7 @@ export default function WorkoutSession({ exercises, onFinish, onClose }) {
         )}
       </div>
 
-      <button onClick={onClose} className="mt-3 w-full text-center text-xs font-medium text-[#a89a8c]">
+      <button onClick={onClose} className="mt-3 w-full text-center text-sm font-medium text-[#a89a8c]">
         Завершити тренування достроково
       </button>
 

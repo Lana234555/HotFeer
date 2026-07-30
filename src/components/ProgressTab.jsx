@@ -40,7 +40,7 @@ export default function ProgressTab({ today, dayNumber, nutrition, progress, set
   return (
     <div className="px-4 pt-8 md:px-0 md:pt-10">
       <h1 className="text-xl font-semibold md:text-2xl">Прогрес</h1>
-      <p className="mt-1 text-sm text-[#a89a8c]">День {dayNumber} · щотижневі виміри</p>
+      <p className="mt-1 text-base text-[#a89a8c]">День {dayNumber} · щотижневі виміри</p>
 
       <div className="md:grid md:grid-cols-2 md:items-start md:gap-6">
         <div className={`ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4 ${lineData.length === 0 ? 'md:col-span-2' : ''}`}>
@@ -48,7 +48,7 @@ export default function ProgressTab({ today, dayNumber, nutrition, progress, set
           <ResponsiveContainer width="100%" height={220}>
             <RadarChart data={radarData} outerRadius="75%">
               <PolarGrid stroke="#332e29" />
-              <PolarAngleAxis dataKey="metric" tick={{ fill: '#c9bfb3', fontSize: 11 }} />
+              <PolarAngleAxis dataKey="metric" tick={{ fill: '#c9bfb3', fontSize: 12 }} />
               <Radar dataKey="value" stroke={EMBER} fill={EMBER} fillOpacity={0.35} />
             </RadarChart>
           </ResponsiveContainer>
@@ -60,8 +60,8 @@ export default function ProgressTab({ today, dayNumber, nutrition, progress, set
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={lineData} margin={{ left: -20, top: 5, right: 10 }}>
                 <CartesianGrid stroke="#262320" vertical={false} />
-                <XAxis dataKey="day" tick={{ fill: '#a89a8c', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis domain={[0, 10]} tick={{ fill: '#a89a8c', fontSize: 11 }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="day" tick={{ fill: '#a89a8c', fontSize: 12 }} axisLine={false} tickLine={false} />
+                <YAxis domain={[0, 10]} tick={{ fill: '#a89a8c', fontSize: 12 }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ background: '#1b1917', border: '1px solid #332e29', borderRadius: 12 }} />
                 <Line type="monotone" dataKey="Видимість" stroke="#ff5a1a" strokeWidth={2} dot={false} />
                 <Line type="monotone" dataKey="Еластичність" stroke="#ffb37a" strokeWidth={2} dot={false} />

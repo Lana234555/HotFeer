@@ -21,7 +21,7 @@ export default function Dashboard({ today, dayNumber, workoutLog, nutrition, wat
     <div className="px-4 pt-8 md:px-0 md:pt-10">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <p className="text-sm text-[#a89a8c]">HotFeet</p>
+          <p className="text-base text-[#a89a8c]">HotFeet</p>
           <h1 className="text-xl font-semibold md:text-2xl">30-денний план</h1>
         </div>
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ember-500/15 text-ember-300">
@@ -85,7 +85,7 @@ export default function Dashboard({ today, dayNumber, workoutLog, nutrition, wat
                     </div>
                     <span className="text-sm text-white/90">{ex.name}</span>
                   </div>
-                  <span className="text-xs text-[#a89a8c]">{ex.sets}</span>
+                  <span className="text-sm text-[#a89a8c]">{ex.sets}</span>
                 </div>
               ))}
             </div>
@@ -94,7 +94,7 @@ export default function Dashboard({ today, dayNumber, workoutLog, nutrition, wat
           <div className="ember-card-soft mt-4 mb-4 rounded-3xl border border-char-600/50 p-4">
             <div className="mb-3 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-white/90">Щоденний догляд</h2>
-              <span className="text-xs text-[#a89a8c]">{careDoneCount}/{CARE_ITEMS.length}</span>
+              <span className="text-sm text-[#a89a8c]">{careDoneCount}/{CARE_ITEMS.length}</span>
             </div>
             <div className="space-y-2">
               {CARE_ITEMS.slice(0, 4).map((item) => {
@@ -111,7 +111,7 @@ export default function Dashboard({ today, dayNumber, workoutLog, nutrition, wat
                       </div>
                       <span className="text-sm text-white/90">{item.label}</span>
                     </div>
-                    <span className="text-xs text-[#a89a8c]">{item.time}</span>
+                    <span className="text-sm text-[#a89a8c]">{item.time}</span>
                   </div>
                 )
               })}
@@ -130,10 +130,10 @@ function StatCard({ label, value, target, suffix }) {
   const pct = target ? Math.min(100, Math.round((value / target) * 100)) : 0
   return (
     <div className="rounded-2xl border border-char-600/50 bg-char-800/60 p-3">
-      <p className="text-[11px] text-[#a89a8c]">{label}</p>
+      <p className="text-xs text-[#a89a8c]">{label}</p>
       <p className="mt-1 text-base font-semibold text-white">
         {value}
-        {suffix ? '' : <span className="text-xs text-[#a89a8c]">/{target}</span>}
+        {suffix ? '' : <span className="text-sm text-[#a89a8c]">/{target}</span>}
         {suffix}
       </p>
       <div className="progress-track mt-2 h-1.5 w-full overflow-hidden rounded-full">

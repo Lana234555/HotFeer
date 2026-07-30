@@ -23,7 +23,7 @@ export default function StepsTracker({ today, steps, pedometer }) {
           <div className="flex items-center justify-between gap-2">
             <div>
               <p className="text-sm text-white/90">Автопідрахунок кроків</p>
-              <p className="text-xs text-[#a89a8c]">
+              <p className="text-sm text-[#a89a8c]">
                 {auto.active
                   ? 'Увімкнено — рахує, поки додаток відкритий на екрані'
                   : auto.permission === 'denied'
@@ -42,7 +42,7 @@ export default function StepsTracker({ today, steps, pedometer }) {
           </div>
         </div>
       ) : (
-        <p className="mt-3 rounded-xl bg-char-800/70 p-3 text-xs text-[#a89a8c]">
+        <p className="mt-3 rounded-xl bg-char-800/70 p-3 text-sm text-[#a89a8c]">
           Цей браузер не підтримує автопідрахунок кроків.
         </p>
       )}

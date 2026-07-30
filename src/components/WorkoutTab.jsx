@@ -30,7 +30,7 @@ export default function WorkoutTab({ today, startDate, dayNumber, workoutLog, se
   return (
     <div className="px-4 pt-8 md:px-0 md:pt-10">
       <h1 className="text-xl font-semibold md:text-2xl">Тренування</h1>
-      <p className="mt-1 text-sm text-[#a89a8c]">{WORKOUT_SCHEDULE[workout.phase].label}</p>
+      <p className="mt-1 text-base text-[#a89a8c]">{WORKOUT_SCHEDULE[workout.phase].label}</p>
 
       <div className="mt-4">
         <StepsTracker today={today} steps={steps} pedometer={pedometer} />
@@ -48,7 +48,7 @@ export default function WorkoutTab({ today, startDate, dayNumber, workoutLog, se
                 isToday ? 'border-ember-400 bg-ember-500/15' : 'border-char-600/50 bg-char-800/60'
               }`}
             >
-              <span className="text-[10px] text-[#a89a8c]">День</span>
+              <span className="text-xs text-[#a89a8c]">День</span>
               <span className="text-sm font-semibold text-white">{d}</span>
               <div className={`h-1.5 w-1.5 rounded-full ${done ? 'bg-ember-400' : 'bg-char-600'}`} />
             </div>
@@ -66,7 +66,7 @@ export default function WorkoutTab({ today, startDate, dayNumber, workoutLog, se
             <div className="flex items-center justify-between gap-2">
               <div>
                 <h2 className="text-base font-semibold text-white">{workout.title}</h2>
-                <p className="text-xs text-[#a89a8c]">{workout.duration} хв · День {dayNumber}</p>
+                <p className="text-sm text-[#a89a8c]">{workout.duration} хв · День {dayNumber}</p>
               </div>
               <button
                 onClick={toggleDone}
@@ -104,7 +104,7 @@ export default function WorkoutTab({ today, startDate, dayNumber, workoutLog, se
                       </div>
                       <span className={`text-sm ${checked ? 'text-white/60 line-through' : 'text-white/90'}`}>{ex.name}</span>
                     </div>
-                    <span className="text-xs text-[#a89a8c]">{ex.sets}</span>
+                    <span className="text-sm text-[#a89a8c]">{ex.sets}</span>
                   </button>
                 )
               })}
@@ -143,7 +143,7 @@ function WeekOverview({ phase, weekDays, startDate, workoutLog, dayNumber }) {
             >
               <div>
                 <p className="text-sm text-white/90">{dayWorkout.title}</p>
-                <p className="text-xs text-[#a89a8c]">День {d} · {dayWorkout.duration} хв</p>
+                <p className="text-sm text-[#a89a8c]">День {d} · {dayWorkout.duration} хв</p>
               </div>
               <div className={`h-2.5 w-2.5 rounded-full ${done ? 'bg-ember-400' : 'bg-char-600'}`} />
             </div>
