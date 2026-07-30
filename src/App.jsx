@@ -6,6 +6,7 @@ import NutritionTab from './components/NutritionTab.jsx'
 import CareTab from './components/CareTab.jsx'
 import ProgressTab from './components/ProgressTab.jsx'
 import { useLocalStorage } from './hooks/useLocalStorage.js'
+import { usePedometer } from './hooks/usePedometer.js'
 import { todayKey, dayNumberSince } from './utils/date.js'
 import { TOTAL_DAYS } from './data/plan.js'
 
@@ -25,6 +26,10 @@ export default function App() {
     return Math.min(Math.max(n, 1), TOTAL_DAYS)
   }, [startDate, today])
 
+  const pedometer = usePedometer(() => {
+    setSteps((prev) => ({ ...prev, [today]: (prev[today] || 0) + 1 }))
+  })
+
   const shared = {
     today,
     startDate,
@@ -41,6 +46,7 @@ export default function App() {
     setProgress,
     steps,
     setSteps,
+    pedometer,
   }
 
   return (

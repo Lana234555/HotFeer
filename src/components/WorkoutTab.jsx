@@ -5,7 +5,7 @@ import { CheckIcon } from './icons.jsx'
 import StepsTracker from './StepsTracker.jsx'
 import WorkoutSession from './WorkoutSession.jsx'
 
-export default function WorkoutTab({ today, startDate, dayNumber, workoutLog, setWorkoutLog, steps, setSteps }) {
+export default function WorkoutTab({ today, startDate, dayNumber, workoutLog, setWorkoutLog, steps, setSteps, pedometer }) {
   const workout = getWorkoutForDay(dayNumber)
   const todaysLog = workoutLog[today] || { done: false, completed: [] }
   const [sessionOpen, setSessionOpen] = useState(false)
@@ -33,7 +33,7 @@ export default function WorkoutTab({ today, startDate, dayNumber, workoutLog, se
       <p className="mt-1 text-sm text-[#a89a8c]">{WORKOUT_SCHEDULE[workout.phase].label}</p>
 
       <div className="mt-4">
-        <StepsTracker today={today} steps={steps} setSteps={setSteps} />
+        <StepsTracker today={today} steps={steps} setSteps={setSteps} pedometer={pedometer} />
       </div>
 
       <div className="mt-4 flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-7 md:overflow-visible">
