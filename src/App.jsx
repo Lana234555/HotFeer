@@ -17,9 +17,15 @@ import { TOTAL_DAYS } from './data/plan.js'
 import { migrateLocalDataToCloud } from './utils/migrateLocalData.js'
 import { supabase } from './lib/supabaseClient.js'
 
+// Тимчасово вимкнено, поки не налаштовано надійну відправку листів (SMTP) у Supabase.
+// Щоб знову увімкнути вхід/реєстрацію, поверни значення на true.
+const REQUIRE_LOGIN = false
+
 export default function App() {
   const { session, event } = useAuthSession()
   const [recoveryDismissed, setRecoveryDismissed] = useState(false)
+
+  if (!REQUIRE_LOGIN) return <LocalOnlyApp />
 
   if (session === undefined) return <LoadingScreen />
   if (event === 'PASSWORD_RECOVERY' && !recoveryDismissed) {
@@ -28,6 +34,62 @@ export default function App() {
   if (!session) return <Auth />
 
   return <AuthenticatedApp userId={session.user.id} />
+}
+
+function LocalOnlyApp() {
+  const [tab, setTab] = useState('home')
+  const [startDate] = useLocalStorage('hotfeet.startDate', todayKey())
+  const [anthropicApiKey, setAnthropicApiKey] = useLocalStorage('hotfeet.anthropicApiKey', '')
+  const [workoutLog, setWorkoutLog] = useLocalStorage('hotfeet.workoutLog', {})
+  const [nutrition, setNutrition] = useLocalStorage('hotfeet.nutrition', {})
+  const [water, setWater] = useLocalStorage('hotfeet.water', {})
+  const [care, setCare] = useLocalStorage('hotfeet.care', {})
+  const [steps, setSteps] = useLocalStorage('hotfeet.steps', {})
+  const [progress, setProgress] = useLocalStorage('hotfeet.progress', [])
+
+  const today = todayKey()
+  const dayNumber = useMemo(() => {
+    const n = dayNumberSince(startDate, today)
+    return Math.min(Math.max(n, 1), TOTAL_DAYS)
+  }, [startDate, today])
+
+  const pedometer = usePedometer(() => {
+    setSteps((prev) => ({ ...prev, [today]: (prev[today] || 0) + 1 }))
+  })
+
+  const shared = {
+    today,
+    startDate,
+    dayNumber,
+    workoutLog,
+    setWorkoutLog,
+    nutrition,
+    setNutrition,
+    water,
+    setWater,
+    care,
+    setCare,
+    progress,
+    setProgress,
+    steps,
+    setSteps,
+    pedometer,
+    anthropicApiKey,
+    setAnthropicApiKey,
+  }
+
+  return (
+    <div className="min-h-screen bg-char-950 font-sans text-[#f5f1ec] md:flex md:justify-center">
+      <BottomNav active={tab} onChange={setTab} />
+      <main className="mx-auto w-full max-w-md pb-28 md:max-w-3xl md:pb-16 md:pl-28 md:pr-6">
+        {tab === 'home' && <Dashboard {...shared} onNavigate={setTab} />}
+        {tab === 'workout' && <WorkoutTab {...shared} />}
+        {tab === 'nutrition' && <NutritionTab {...shared} />}
+        {tab === 'care' && <CareTab {...shared} />}
+        {tab === 'progress' && <ProgressTab {...shared} />}
+      </main>
+    </div>
+  )
 }
 
 function AuthenticatedApp({ userId }) {
