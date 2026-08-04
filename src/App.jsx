@@ -6,6 +6,7 @@ import NutritionTab from './components/NutritionTab.jsx'
 import CareTab from './components/CareTab.jsx'
 import ProgressTab from './components/ProgressTab.jsx'
 import Auth from './components/Auth.jsx'
+import ResetPassword from './components/ResetPassword.jsx'
 import { useLocalStorage } from './hooks/useLocalStorage.js'
 import { useCloudLog, useCloudArrayLog } from './hooks/useCloudLog.js'
 import { useStartDate } from './hooks/useStartDate.js'
@@ -17,9 +18,13 @@ import { migrateLocalDataToCloud } from './utils/migrateLocalData.js'
 import { supabase } from './lib/supabaseClient.js'
 
 export default function App() {
-  const session = useAuthSession()
+  const { session, event } = useAuthSession()
+  const [recoveryDismissed, setRecoveryDismissed] = useState(false)
 
   if (session === undefined) return <LoadingScreen />
+  if (event === 'PASSWORD_RECOVERY' && !recoveryDismissed) {
+    return <ResetPassword onDone={() => setRecoveryDismissed(true)} />
+  }
   if (!session) return <Auth />
 
   return <AuthenticatedApp userId={session.user.id} />

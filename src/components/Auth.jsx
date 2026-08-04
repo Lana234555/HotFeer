@@ -3,7 +3,7 @@ import { supabase, supabaseConfigured } from '../lib/supabaseClient.js'
 import { FlameIcon } from './icons.jsx'
 
 export default function Auth() {
-  const [mode, setMode] = useState('signIn') // 'signIn' | 'signUp'
+  const [mode, setMode] = useState('signIn') // 'signIn' | 'signUp' | 'forgot'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -19,10 +19,16 @@ export default function Auth() {
       if (mode === 'signIn') {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password })
         if (err) throw err
-      } else {
+      } else if (mode === 'signUp') {
         const { error: err } = await supabase.auth.signUp({ email, password })
         if (err) throw err
         setInfo('Перевір пошту — надіслали лист для підтвердження акаунта.')
+      } else {
+        const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin,
+        })
+        if (err) throw err
+        setInfo('Перевір пошту — надіслали посилання для скидання пароля.')
       }
     } catch (err) {
       setError(translateError(err?.message))
@@ -53,7 +59,9 @@ export default function Auth() {
           </div>
           <h1 className="text-xl font-semibold">HotFeet</h1>
           <p className="text-sm text-[#a89a8c]">
-            {mode === 'signIn' ? 'Увійди, щоб продовжити свій план' : 'Створи акаунт для 30-денного плану'}
+            {mode === 'signIn' && 'Увійди, щоб продовжити свій план'}
+            {mode === 'signUp' && 'Створи акаунт для 30-денного плану'}
+            {mode === 'forgot' && 'Надішлемо посилання для скидання пароля'}
           </p>
         </div>
 
@@ -70,18 +78,34 @@ export default function Auth() {
             />
           </label>
 
-          <label className="mt-3 block">
-            <span className="text-sm text-white/80">Пароль</span>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-char-600/60 bg-char-800/70 px-3 py-2.5 text-sm text-white outline-none focus:border-ember-400"
-              placeholder="мінімум 6 символів"
-            />
-          </label>
+          {mode !== 'forgot' && (
+            <label className="mt-3 block">
+              <span className="text-sm text-white/80">Пароль</span>
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 w-full rounded-xl border border-char-600/60 bg-char-800/70 px-3 py-2.5 text-sm text-white outline-none focus:border-ember-400"
+                placeholder="мінімум 6 символів"
+              />
+            </label>
+          )}
+
+          {mode === 'signIn' && (
+            <button
+              type="button"
+              onClick={() => {
+                setMode('forgot')
+                setError('')
+                setInfo('')
+              }}
+              className="mt-2 text-sm font-medium text-ember-300"
+            >
+              Забув(ла) пароль?
+            </button>
+          )}
 
           {error && <p className="mt-3 text-sm text-ember-300">{error}</p>}
           {info && <p className="mt-3 text-sm text-[#a89a8c]">{info}</p>}
@@ -91,19 +115,27 @@ export default function Auth() {
             disabled={loading}
             className="mt-4 w-full rounded-xl bg-ember-500 py-2.5 text-sm font-semibold text-white shadow-glow disabled:opacity-60"
           >
-            {loading ? 'Зачекай…' : mode === 'signIn' ? 'Увійти' : 'Зареєструватися'}
+            {loading
+              ? 'Зачекай…'
+              : mode === 'signIn'
+                ? 'Увійти'
+                : mode === 'signUp'
+                  ? 'Зареєструватися'
+                  : 'Надіслати посилання'}
           </button>
         </form>
 
         <button
           onClick={() => {
-            setMode((m) => (m === 'signIn' ? 'signUp' : 'signIn'))
+            setMode((m) => (m === 'signUp' ? 'signIn' : m === 'forgot' ? 'signIn' : 'signUp'))
             setError('')
             setInfo('')
           }}
           className="mt-4 w-full text-center text-sm font-medium text-ember-300"
         >
-          {mode === 'signIn' ? 'Ще немає акаунта? Зареєструватися' : 'Вже є акаунт? Увійти'}
+          {mode === 'signIn' && 'Ще немає акаунта? Зареєструватися'}
+          {mode === 'signUp' && 'Вже є акаунт? Увійти'}
+          {mode === 'forgot' && 'Повернутися до входу'}
         </button>
       </div>
     </div>
