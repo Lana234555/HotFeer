@@ -44,6 +44,7 @@ function LocalOnlyApp() {
   const [nutrition, setNutrition] = useLocalStorage('hotfeet.nutrition', {})
   const [water, setWater] = useLocalStorage('hotfeet.water', {})
   const [care, setCare] = useLocalStorage('hotfeet.care', {})
+  const [careProfile, setCareProfile] = useLocalStorage('hotfeet.careProfile', null)
   const [steps, setSteps] = useLocalStorage('hotfeet.steps', {})
   const [progress, setProgress] = useLocalStorage('hotfeet.progress', [])
 
@@ -69,6 +70,8 @@ function LocalOnlyApp() {
     setWater,
     care,
     setCare,
+    careProfile,
+    setCareProfile,
     progress,
     setProgress,
     steps,
@@ -117,6 +120,7 @@ function MainApp({ userId }) {
   const [nutrition, setNutrition] = useCloudLog('nutrition', {}, userId)
   const [water, setWater] = useCloudLog('water', {}, userId)
   const [care, setCare] = useCloudLog('care', {}, userId)
+  const [careProfile, setCareProfile] = useLocalStorage('hotfeet.careProfile', null)
   const [steps, setSteps] = useCloudLog('steps', {}, userId, { debounceMs: 4000 })
   const [progress, setProgress] = useCloudArrayLog('progress', userId)
 
@@ -143,6 +147,8 @@ function MainApp({ userId }) {
     setWater,
     care,
     setCare,
+    careProfile,
+    setCareProfile,
     progress,
     setProgress,
     steps,
