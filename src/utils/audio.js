@@ -26,6 +26,16 @@ export function playTick() {
   playTone({ freq: 660, duration: 0.08, gain: 0.16, type: 'square' })
 }
 
+export function playWaterDrop() {
+  playTone({ freq: 1200, duration: 0.09, gain: 0.18, type: 'sine' })
+  playTone({ freq: 700, duration: 0.12, gain: 0.14, type: 'sine', delay: 0.04 })
+}
+
+export function playTaskDone() {
+  playTone({ freq: 880, duration: 0.14, gain: 0.22, type: 'sine' })
+  playTone({ freq: 1320, duration: 0.22, gain: 0.24, type: 'sine', delay: 0.1 })
+}
+
 export function playPhaseEnd({ intense = false } = {}) {
   if (intense) {
     playTone({ freq: 1180, duration: 0.24, gain: 0.42, type: 'sawtooth' })

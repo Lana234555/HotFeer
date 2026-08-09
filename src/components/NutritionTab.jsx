@@ -3,6 +3,7 @@ import { FOOD_QUICK_ADD, MACRO_TARGETS, WATER_TARGET_ML } from '../data/plan.js'
 import { sumMacros } from '../utils/score.js'
 import { DropletIcon } from './icons.jsx'
 import { analyzeFoodPhoto, fileToBase64 } from '../utils/foodAnalysis.js'
+import { playWaterDrop, playTaskDone } from '../utils/audio.js'
 import ApiKeySettings from './ApiKeySettings.jsx'
 
 const WATER_STEPS = [200, 250, 500]
@@ -30,6 +31,7 @@ export default function NutritionTab({
     const id = `${food.name}-${Date.now()}`
     setNutrition({ ...nutrition, [today]: [...entries, { ...food, id }] })
     setShowPicker(false)
+    playTaskDone()
   }
 
   function triggerPhoto() {
@@ -74,7 +76,10 @@ export default function NutritionTab({
   }
 
   function addWater(ml) {
-    setWater({ ...water, [today]: Math.max(0, waterMl + ml) })
+    const next = Math.max(0, waterMl + ml)
+    playWaterDrop()
+    if (waterMl < WATER_TARGET_ML && next >= WATER_TARGET_ML) playTaskDone()
+    setWater({ ...water, [today]: next })
   }
 
   return (
