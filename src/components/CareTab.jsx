@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { CARE_ITEMS } from '../data/plan.js'
 import { CARE_ONBOARDING_QUESTIONS, CARE_WEEKLY_CHECKIN_QUESTIONS } from '../data/careQuestions.js'
 import { CheckIcon } from './icons.jsx'
 import CareAssistantChat from './CareAssistantChat.jsx'
@@ -13,7 +12,7 @@ export default function CareTab({ today, care, setCare, careProfile, setCareProf
   const [showSettings, setShowSettings] = useState(false)
   const [chatMode, setChatMode] = useState(null) // null | 'onboarding' | 'checkin'
 
-  const items = careProfile?.items?.length ? careProfile.items : CARE_ITEMS
+  const items = careProfile?.items?.length ? careProfile.items : []
   const todaysCare = care[today] || {}
   const doneCount = items.filter((i) => todaysCare[i.id]).length
 
@@ -59,15 +58,17 @@ export default function CareTab({ today, care, setCare, careProfile, setCareProf
     <div className="px-4 pt-8 md:px-0 md:pt-10">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold md:text-2xl">Домашній догляд</h1>
-        <span className="text-base text-[#a89a8c]">{doneCount}/{items.length}</span>
+        {items.length > 0 && <span className="text-base text-[#a89a8c]">{doneCount}/{items.length}</span>}
       </div>
 
-      <div className="progress-track mt-3 h-2 w-full overflow-hidden rounded-full">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-ember-600 to-ember-300"
-          style={{ width: `${Math.round((doneCount / items.length) * 100)}%` }}
-        />
-      </div>
+      {items.length > 0 && (
+        <div className="progress-track mt-3 h-2 w-full overflow-hidden rounded-full">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-ember-600 to-ember-300"
+            style={{ width: `${Math.round((doneCount / items.length) * 100)}%` }}
+          />
+        </div>
+      )}
 
       <div className="ember-card-soft mt-4 rounded-3xl border border-char-600/50 p-4">
         <div className="flex items-center justify-between">
@@ -119,6 +120,12 @@ export default function CareTab({ today, care, setCare, careProfile, setCareProf
           </p>
           <p className="mt-1 text-sm text-white/80">Дай знати про зміни — оновимо план догляду під тебе.</p>
         </button>
+      )}
+
+      {items.length === 0 && (
+        <p className="mt-4 rounded-2xl border border-dashed border-char-600/60 p-4 text-center text-base text-[#a89a8c]">
+          Список догляду з'явиться тут після анкети
+        </p>
       )}
 
       <div className="md:grid md:grid-cols-3 md:items-start md:gap-5">

@@ -1,13 +1,14 @@
-import { getWorkoutForDay, CARE_ITEMS, MACRO_TARGETS, WATER_TARGET_ML, TOTAL_DAYS } from '../data/plan.js'
+import { getWorkoutForDay, MACRO_TARGETS, WATER_TARGET_ML, TOTAL_DAYS } from '../data/plan.js'
 import { sumMacros, computeDailyScore } from '../utils/score.js'
 import { CheckIcon, FlameIcon, DropletIcon, DumbbellIcon } from './icons.jsx'
 
-export default function Dashboard({ today, dayNumber, workoutLog, nutrition, water, care, onNavigate, onSignOut }) {
+export default function Dashboard({ today, dayNumber, workoutLog, nutrition, water, care, careProfile, onNavigate, onSignOut }) {
   const workout = getWorkoutForDay(dayNumber)
   const workoutDone = Boolean(workoutLog[today]?.done)
   const waterMl = water[today] || 0
   const todaysCare = care[today] || {}
-  const careDoneCount = CARE_ITEMS.filter((i) => todaysCare[i.id]).length
+  const careItems = careProfile?.items?.length ? careProfile.items : []
+  const careDoneCount = careItems.filter((i) => todaysCare[i.id]).length
 
   const macros = sumMacros(nutrition[today] || [])
   const score = computeDailyScore({
@@ -74,7 +75,7 @@ export default function Dashboard({ today, dayNumber, workoutLog, nutrition, wat
           <div className="mt-4 grid grid-cols-3 gap-3">
             <StatCard label="Ккал" value={Math.round(macros.kcal)} target={MACRO_TARGETS.kcal} />
             <StatCard label="Вода, мл" value={waterMl} target={WATER_TARGET_ML} />
-            <StatCard label="Догляд" value={careDoneCount} target={CARE_ITEMS.length} suffix={`/${CARE_ITEMS.length}`} />
+            <StatCard label="Догляд" value={careDoneCount} target={careItems.length} suffix={`/${careItems.length}`} />
           </div>
         </div>
 
@@ -104,31 +105,37 @@ export default function Dashboard({ today, dayNumber, workoutLog, nutrition, wat
           <div className="ember-card-soft mt-4 mb-4 rounded-3xl border border-char-600/50 p-4">
             <div className="mb-3 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-white/90">Щоденний догляд</h2>
-              <span className="text-sm text-[#a89a8c]">{careDoneCount}/{CARE_ITEMS.length}</span>
+              {careItems.length > 0 && <span className="text-sm text-[#a89a8c]">{careDoneCount}/{careItems.length}</span>}
             </div>
-            <div className="space-y-2">
-              {CARE_ITEMS.slice(0, 4).map((item) => {
-                const done = Boolean(todaysCare[item.id])
-                return (
-                  <div key={item.id} className="flex items-center justify-between rounded-xl bg-char-800/70 px-3 py-2.5">
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        className={`flex h-6 w-6 items-center justify-center rounded-full border ${
-                          done ? 'border-ember-400 bg-ember-500 text-white' : 'border-char-600 text-transparent'
-                        }`}
-                      >
-                        <CheckIcon />
-                      </div>
-                      <span className="text-sm text-white/90">{item.label}</span>
-                    </div>
-                    <span className="text-sm text-[#a89a8c]">{item.time}</span>
-                  </div>
-                )
-              })}
-              <button onClick={() => onNavigate('care')} className="w-full pt-1 text-center text-xs font-medium text-ember-300">
-                Показати все →
+            {careItems.length === 0 ? (
+              <button onClick={() => onNavigate('care')} className="w-full rounded-xl bg-char-800/70 px-3 py-3 text-center text-sm text-[#a89a8c]">
+                Пройди анкету, щоб отримати план догляду →
               </button>
-            </div>
+            ) : (
+              <div className="space-y-2">
+                {careItems.slice(0, 4).map((item) => {
+                  const done = Boolean(todaysCare[item.id])
+                  return (
+                    <div key={item.id} className="flex items-center justify-between rounded-xl bg-char-800/70 px-3 py-2.5">
+                      <div className="flex items-center gap-2.5">
+                        <div
+                          className={`flex h-6 w-6 items-center justify-center rounded-full border ${
+                            done ? 'border-ember-400 bg-ember-500 text-white' : 'border-char-600 text-transparent'
+                          }`}
+                        >
+                          <CheckIcon />
+                        </div>
+                        <span className="text-sm text-white/90">{item.label}</span>
+                      </div>
+                      <span className="text-sm text-[#a89a8c]">{item.time}</span>
+                    </div>
+                  )
+                })}
+                <button onClick={() => onNavigate('care')} className="w-full pt-1 text-center text-xs font-medium text-ember-300">
+                  Показати все →
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
