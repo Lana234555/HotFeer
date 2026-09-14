@@ -1,10 +1,11 @@
-import { HomeIcon, DumbbellIcon, AppleIcon, DropletIcon, ChartIcon } from './icons.jsx'
+import { HomeIcon, DumbbellIcon, AppleIcon, DropletIcon, ChartIcon, CalendarIcon } from './icons.jsx'
 
 const TABS = [
   { id: 'home', label: 'Головна', Icon: HomeIcon },
   { id: 'workout', label: 'Тренування', Icon: DumbbellIcon },
   { id: 'nutrition', label: 'Харчування', Icon: AppleIcon },
   { id: 'care', label: 'Догляд', Icon: DropletIcon },
+  { id: 'calendar', label: 'Календар', Icon: CalendarIcon },
   { id: 'progress', label: 'Прогрес', Icon: ChartIcon },
 ]
 

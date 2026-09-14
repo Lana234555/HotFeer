@@ -5,6 +5,7 @@ import WorkoutTab from './components/WorkoutTab.jsx'
 import NutritionTab from './components/NutritionTab.jsx'
 import CareTab from './components/CareTab.jsx'
 import ProgressTab from './components/ProgressTab.jsx'
+import CalendarTab from './components/CalendarTab.jsx'
 import Auth from './components/Auth.jsx'
 import ResetPassword from './components/ResetPassword.jsx'
 import { useLocalStorage } from './hooks/useLocalStorage.js'
@@ -89,6 +90,7 @@ function LocalOnlyApp() {
         {tab === 'workout' && <WorkoutTab {...shared} />}
         {tab === 'nutrition' && <NutritionTab {...shared} />}
         {tab === 'care' && <CareTab {...shared} />}
+        {tab === 'calendar' && <CalendarTab {...shared} />}
         {tab === 'progress' && <ProgressTab {...shared} />}
       </main>
     </div>
@@ -168,6 +170,7 @@ function MainApp({ userId }) {
         {tab === 'workout' && <WorkoutTab {...shared} />}
         {tab === 'nutrition' && <NutritionTab {...shared} />}
         {tab === 'care' && <CareTab {...shared} />}
+        {tab === 'calendar' && <CalendarTab {...shared} />}
         {tab === 'progress' && <ProgressTab {...shared} />}
       </main>
     </div>

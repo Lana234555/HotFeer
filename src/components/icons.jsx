@@ -59,3 +59,22 @@ export function FlameIcon(props) {
     </svg>
   )
 }
+
+export function CalendarIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" {...stroke} {...props}>
+      <rect x="4" y="5.5" width="16" height="14.5" rx="2.5" />
+      <path d="M4 10h16M8 3.5v3M16 3.5v3" />
+    </svg>
+  )
+}
+
+export function TrophyIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" {...stroke} {...props}>
+      <path d="M7 4h10v5a5 5 0 0 1-10 0V4Z" />
+      <path d="M7 5.5H4a3 3 0 0 0 3 4.5M17 5.5h3a3 3 0 0 1-3 4.5" />
+      <path d="M12 14v3M9 20.5h6M9.5 20.5c0-2 .8-2.7 2.5-3 1.7.3 2.5 1 2.5 3" />
+    </svg>
+  )
+}
